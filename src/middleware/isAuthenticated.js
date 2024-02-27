@@ -6,7 +6,6 @@ exports.isAuthenticated = (req, res, next) => {
     next();
   } else {
     if (req.decToken) {
-      console.log("NEMAA")
       return res
         .status(401)
         .json({ expMessage: "Your session has expired, login again!" });
