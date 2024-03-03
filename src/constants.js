@@ -3,4 +3,5 @@ module.exports = {
   DATA_BASE_NAME: "CarVilla",
   PORT: 3000,
   SECRET: "BIGGESTSECRET",
+  authTokenName: "X-Authorization",
 };

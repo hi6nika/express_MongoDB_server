@@ -6,6 +6,6 @@ const CarController = require("./controllers/carController");
 router.use("/users", UserController);
 router.use("/cars", CarController);
 
-router.get("*", (req, res) => res.status(400).send("BAD REQ!"));
+router.get("*", (req, res) => res.status(400).send("Bad Request!"));
 
 module.exports = router;

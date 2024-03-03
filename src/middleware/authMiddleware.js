@@ -1,8 +1,8 @@
-const { SECRET } = require("../constants");
+const { SECRET, authTokenName } = require("../constants");
 const jwt = require("../util/jwtPromisify");
 
 exports.auth = async (req, res, next) => {
-  const token = req.header("X-Authorization");
+  const token = req.header(authTokenName);
 
   if (token) {
     try {
