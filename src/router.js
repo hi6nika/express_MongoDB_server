@@ -1,10 +1,10 @@
 const router = require("express").Router();
 
 const UserController = require("./controllers/userController");
-const CarController = require("./controllers/carController");
+const itemController = require("./controllers/itemController");
 
 router.use("/users", UserController);
-router.use("/cars", CarController);
+router.use("/cars", itemController);
 
 router.get("*", (req, res) => res.status(400).send("Bad Request!"));
 
