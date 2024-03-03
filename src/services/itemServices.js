@@ -1,71 +1,73 @@
-const Car = require("../mongoose/models/car");
+const Item = require("../mongoose/models/item");
 
-exports.addCar = async (data) => {
-  const car = await Car.create(data);
+exports.addItem = async (data) => {
+  const item = await Item.create(data);
 
-  return car;
+  return item;
 };
 
-exports.getAllCars = async (data) => {
+
+exports.getMyItems = async (data) => {
+  const item = await Item.find({ owner: data }).lean();
+
+  return item;
+};
+
+
+exports.getAllItems = async (data) => {
   if (!data) {
-    return await Car.find().lean();
+    return await Item.find().lean();
   } else {
-    return await Car.find(JSON.parse(data)).lean();
+    return await Item.find(JSON.parse(data)).lean();
   }
 };
 
-exports.getMyCars = async (data) => {
-  const car = await Car.find({ owner: data }).lean();
+exports.getItem = async (id) => {
+  const item = await Item.findById(id).lean();
 
-  return car;
+  return item;
 };
 
-exports.getCar = async (id) => {
-  const car = await Car.findById(id).lean();
+exports.updateItemViews = async (id) => {
+  const item = await Item.findById(id).lean();
 
-  return car;
+  const newValue = item.views + 1;
+
+  const updatedItem = await Item.findByIdAndUpdate(id, { views: newValue });
+
+  return updatedItem;
 };
 
-exports.updateCarViews = async (id) => {
-  const car = await Car.findById(id).lean();
-
-  const newValue = car.views + 1;
-
-  const updatedCar = await Car.findByIdAndUpdate(id, { views: newValue });
-
-  return updatedCar;
-};
-
-exports.addBuyerToCar = async (id, buyerDetails) => {
-  const car = await Car.findById(id).lean();
+exports.addBuyerToItem = async (id, buyerDetails) => {
+  const item = await Item.findById(id).lean();
 
   const alreadyBought = [];
 
-  for ([key, values] of Object.entries(car.buyers)) {
+  for ([key, values] of Object.entries(item.buyers)) {
     alreadyBought.push(values._id);
   }
 
   if (!alreadyBought.includes(buyerDetails._id)) {
-    car.buyers.push(buyerDetails);
-    const updatedCar = await Car.findByIdAndUpdate(
+    item.buyers.push(buyerDetails);
+    const updatedItem = await Item.findByIdAndUpdate(
       id,
-      { buyers: car.buyers },
+      { buyers: item.buyers },
       { new: true }
     );
 
-    return updatedCar;
+    return updatedItem;
   } else {
-    throw new Error("user already bought the car!");
+    throw new Error("User already bought the item!");
   }
 };
 
-exports.deleteCar = async (id) => {
-  const car = await Car.findByIdAndDelete(id).lean();
+exports.deleteItem = async (id) => {
+  const item = await Item.findByIdAndDelete(id).lean();
 
-  return car;
+  return item;
 };
 
-exports.editCar = async (id, data) => {
-  const car = await Car.findByIdAndUpdate(id, data);
-  return car;
+exports.editItem = async (id, data) => {
+  const item = await Item.findByIdAndUpdate(id, data);
+  return item;
 };
