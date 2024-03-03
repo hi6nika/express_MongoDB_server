@@ -9,7 +9,6 @@ exports.isAuthenticated = (req, res, next) => {
       return res
         .status(401)
         .json({ expMessage: "Your session has expired, login again!" });
-
     }
     res.status(401).json({ unathorized: "unauthorized!" });
   }
